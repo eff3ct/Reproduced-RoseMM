@@ -30,8 +30,6 @@ set(HEADERS
     ${HEADER_DIR}/parallel-matmul.hpp
 )
 
-set(CMAKE_BUILD_TYPE Debug)
-
 add_library(roseMM STATIC ${HEADERS} ${SOURCES})
 
 add_subdirectory(test)
