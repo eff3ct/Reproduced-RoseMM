@@ -7,8 +7,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(ROSE_MM_TESTS
-    rs_estimator_test.cpp
-    smcm_ordering_test.cpp
+    rs-estimator-test.cpp
+    smcm-ordering-test.cpp
+    sub-chain-sparsity-test.cpp
 )
 
 add_executable(rose_mm_test ${ROSE_MM_TESTS})

@@ -20,7 +20,7 @@ Vector<Vector<double>> estimate_sub_chain_sparsity(MatrixChain<double>& A) {
 
     // get mean value of vector (sum(v_i) / #row)
     auto get_mean = [](Vector<double>& v) {
-        int sum = 0;
+        double sum = 0;
         for (double v_i: v)
             sum += v_i;
         return sum / v.size();
