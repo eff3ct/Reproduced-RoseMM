@@ -122,3 +122,49 @@ TEST(ParallelMatrixMultiplicationTest, LargeSparseMatrixMultiplication) {
         }
     }
 }
+
+Vector<Vector<double>> gen_random_dense_matrix(int m, int n) {
+    Vector<Vector<double>> gen_mat(m, Vector<double>(n, 0.0));
+
+    std::mt19937 mt(static_cast<unsigned>(std::time(nullptr)));
+    std::uniform_real_distribution<double> val_dist(-1.0, 1.0); 
+
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            gen_mat[i][j] = val_dist(mt);
+        }
+    }
+
+    return gen_mat;
+}
+
+
+TEST(ParallelMatrixMultiplicationTest, LargeDenseMatrixMultiplication) {
+    const int m = 2000;
+    const int n = 2000;
+
+    Vector<Vector<double>> _A = gen_random_dense_matrix(m, n);
+    Vector<Vector<double>> _B = gen_random_dense_matrix(m, n);
+    Matrix<double> A(m, n, _A);
+    Matrix<double> B(m, n, _B);
+
+    clock_t st, ed;
+    st = clock();
+    Matrix<double> AB = parallel_matrix_mult(A, B);
+    ed = clock();
+    double p_matmul_time = (double)(ed - st);
+    
+    st = clock();
+    Vector<Vector<double>> expected = naive_matrix_mult(_A, _B);
+    ed = clock();
+    double n_matmul_time = (double)(ed - st);
+
+    // Threaded version should be faster.
+    EXPECT_LT(p_matmul_time, n_matmul_time);
+
+    std::cout.precision(7);
+    std::cout << std::fixed;
+
+    std::cout << "[INFO] p_matmul_time: " << p_matmul_time / CLOCKS_PER_SEC << " (s)\n";
+    std::cout << "[INFO] n_matmul_time: " << n_matmul_time / CLOCKS_PER_SEC << " (s)\n";
+}
