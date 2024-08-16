@@ -1,5 +1,5 @@
 #include "common/matrix.hpp"
-#include "rose_mm.hpp"
+#include "rose-mm.hpp"
 #include "sub-chain-sparsity-estimator.hpp"
 #include "parallel-matmul.hpp"
 #include "ordering.hpp"

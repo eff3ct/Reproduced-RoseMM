@@ -1,5 +1,5 @@
 #include <thread>
-#include <parallel-matmul.hpp>
+#include "parallel-matmul.hpp"
 
 void calc_row(int start, 
               int end, 
@@ -25,7 +25,7 @@ void calc_row(int start,
             }
         }
 
-        for (int j = 0; j < count-1; ++j) {
+        for (int j = 0; j < count; ++j) {
             if (V[C[j]] != 0) 
                 O[i].push_back({ C[j], V[C[j]] });
         }
@@ -34,7 +34,6 @@ void calc_row(int start,
 
 Matrix<double> parallel_matrix_mult(Matrix<double>& A, Matrix<double>& B) {
     int m = A.get_row_size();
-    int n = A.get_col_size();
     int l = B.get_col_size();
 
     Matrix<double> O(m, l);

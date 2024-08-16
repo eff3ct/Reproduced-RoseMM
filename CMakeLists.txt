@@ -17,7 +17,7 @@ set(SOURCES
     ${SOURCE_DIR}/estimator/sub-chain-sparsity-estimator.cpp
     ${SOURCE_DIR}/ordering/ordering.cpp
     ${SOURCE_DIR}/multiplication/parallel-matmul.cpp
-    ${SOURCE_DIR}/rose_mm/rose_mm.cpp
+    ${SOURCE_DIR}/rose-mm/rose-mm.cpp
 )
 
 set(HEADER_DIR include)
@@ -25,7 +25,7 @@ set(HEADERS
     ${HEADER_DIR}/common/matrix.hpp
     ${HEADER_DIR}/ordering.hpp
     ${HEADER_DIR}/rs-estimator.hpp
-    ${HEADER_DIR}/rose_mm.hpp
+    ${HEADER_DIR}/rose-mm.hpp
     ${HEADER_DIR}/sub-chain-sparsity-estimator.hpp
     ${HEADER_DIR}/parallel-matmul.hpp
 )

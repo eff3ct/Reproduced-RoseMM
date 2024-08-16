@@ -5,7 +5,7 @@
 #ifndef __COMMON_MATRIX_HPP__
 #define __COMMON_MATRIX_HPP__
 
-#define NUM_THREAD 16
+#define NUM_THREAD 6
 
 template<class T>
 using Vector = std::vector<T>;
@@ -25,7 +25,7 @@ class Matrix {
         Vector<Vector<Entry>> sp_adj_matrix;
 
     public:
-        Matrix(int m, int n): m(m), n(n) { sp_adj_matrix.reserve(m); }
+        Matrix(int m, int n): m(m), n(n) { sp_adj_matrix.resize(m); }
         Matrix(int m, int n, Vector<Vector<T>> mat): m(m), n(n) {
             sp_adj_matrix.resize(m);
             // Make ordinary matrix representation into sparse adjacent list.

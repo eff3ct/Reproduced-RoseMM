@@ -10,6 +10,8 @@ set(ROSE_MM_TESTS
     rs-estimator-test.cpp
     smcm-ordering-test.cpp
     sub-chain-sparsity-test.cpp
+    parallel-matmul-test.cpp
+    rose-mm-test.cpp
 )
 
 add_executable(rose_mm_test ${ROSE_MM_TESTS})
