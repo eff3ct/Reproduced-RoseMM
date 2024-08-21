@@ -36,7 +36,7 @@ void calc_estimated_rs(int start,
     }
 }
 
-Vector<double> RS_estimator(Matrix<double>& A, Matrix<double>& B) {
+Vector<double> RS_estimator(Matrix<double>& A, Matrix<double>& B, uint num_thread) {
     int row_size = A.get_row_size();
     
     Vector<double> rs_B = compute_row_wise_sparsity(B);
@@ -45,9 +45,9 @@ Vector<double> RS_estimator(Matrix<double>& A, Matrix<double>& B) {
     std::vector<std::thread> threads;
 
     int start = 0, end = 0;
-    int delta = row_size / NUM_THREAD;
-    int remainder = row_size % NUM_THREAD;
-    for (int i = 0; i < NUM_THREAD; ++i) {
+    int delta = row_size / num_thread;
+    int remainder = row_size % num_thread;
+    for (int i = 0; i < num_thread; ++i) {
         end = start + delta;
         
         if (i < remainder) 
@@ -65,13 +65,13 @@ Vector<double> RS_estimator(Matrix<double>& A, Matrix<double>& B) {
         start = end;
     }
 
-    for (int i = 0; i < NUM_THREAD; ++i)
+    for (int i = 0; i < num_thread; ++i)
         threads[i].join();
 
     return estimated_sparsity;
 }
 
-Vector<double> RS_estimator(Matrix<double>& A, Vector<double>& rs_B) {
+Vector<double> RS_estimator(Matrix<double>& A, Vector<double>& rs_B, uint num_thread) {
     int row_size = A.get_row_size();
     
     Vector<double> estimated_sparsity(row_size, 0);
@@ -79,9 +79,9 @@ Vector<double> RS_estimator(Matrix<double>& A, Vector<double>& rs_B) {
     std::vector<std::thread> threads;
 
     int start = 0, end = 0;
-    int delta = row_size / NUM_THREAD;
-    int remainder = row_size % NUM_THREAD;
-    for (int i = 0; i < NUM_THREAD; ++i) {
+    int delta = row_size / num_thread;
+    int remainder = row_size % num_thread;
+    for (int i = 0; i < num_thread; ++i) {
         end = start + delta;
         
         if (i < remainder) 
@@ -99,7 +99,7 @@ Vector<double> RS_estimator(Matrix<double>& A, Vector<double>& rs_B) {
         start = end;
     }
 
-    for (int i = 0; i < NUM_THREAD; ++i)
+    for (int i = 0; i < num_thread; ++i)
         threads[i].join();
 
     return estimated_sparsity;

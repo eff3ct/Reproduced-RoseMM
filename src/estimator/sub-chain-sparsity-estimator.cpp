@@ -8,7 +8,7 @@
 #include "rs-estimator.hpp"
 #include "sub-chain-sparsity-estimator.hpp"
 
-Vector<Vector<double>> estimate_sub_chain_sparsity(MatrixChain<double>& A) {
+Vector<Vector<double>> estimate_sub_chain_sparsity(MatrixChain<double>& A, uint num_thread) {
     // length of the matrix chain A
     int p = A.size();
 
@@ -31,7 +31,7 @@ Vector<Vector<double>> estimate_sub_chain_sparsity(MatrixChain<double>& A) {
         S[i][i] = get_mean(R[i][i]);
 
         for (int j = p-1; j >= i+1; --j) {
-            R[i][j] = RS_estimator(A[i], R[i+1][j]);
+            R[i][j] = RS_estimator(A[i], R[i+1][j], num_thread);
             S[i][j] = get_mean(R[i][j]);
         }
     }

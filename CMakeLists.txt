@@ -32,6 +32,7 @@ set(HEADERS
 )
 
 add_library(roseMM STATIC ${HEADERS} ${SOURCES})
+target_link_libraries(roseMM PRIVATE pthread)
 
 add_subdirectory(test)
 

@@ -7,14 +7,19 @@ void calc_row(int start,
               Matrix<double>& B,
               Matrix<double>& O) {
     int l = B.get_col_size();
+
+    Vector<double> V(l);
+    Vector<int> C(l);
+    Vector<bool> F(l);
     for (int i = start; i < end; ++i) {
-        Vector<double> V(l);
-        Vector<int> C(l);
-        Vector<bool> F(l);
+        std::fill(V.begin(), V.end(), 0);
+        std::fill(C.begin(), C.end(), 0);
+        std::fill(F.begin(), F.end(), 0);
+
         int count = 0;
 
-        for (auto a: A[i]) {
-            for (auto b: B[a.col]) {
+        for (const auto& a: A[i]) {
+            for (const auto& b: B[a.col]) {
                 if (!F[b.col]) {
                     F[b.col] = true;
                     C[count++] = b.col;
@@ -32,7 +37,7 @@ void calc_row(int start,
     }
 }
 
-Matrix<double> parallel_matrix_mult(Matrix<double>& A, Matrix<double>& B) {
+Matrix<double> parallel_matrix_mult(Matrix<double>& A, Matrix<double>& B, uint num_thread) {
     int m = A.get_row_size();
     int l = B.get_col_size();
 
@@ -41,9 +46,9 @@ Matrix<double> parallel_matrix_mult(Matrix<double>& A, Matrix<double>& B) {
     Vector<std::thread> threads;
 
     int start = 0, end = 0;
-    int delta = m / NUM_THREAD;
-    int remainder = m % NUM_THREAD;
-    for (int i = 0; i < NUM_THREAD; ++i) {
+    int delta = m / num_thread;
+    int remainder = m % num_thread;
+    for (int i = 0; i < num_thread; ++i) {
         end = start + delta;
         
         if (i < remainder) 
@@ -61,7 +66,7 @@ Matrix<double> parallel_matrix_mult(Matrix<double>& A, Matrix<double>& B) {
         start = end;
     }
 
-    for (int i = 0; i < NUM_THREAD; ++i)
+    for (int i = 0; i < num_thread; ++i)
         threads[i].join();
 
     return O;

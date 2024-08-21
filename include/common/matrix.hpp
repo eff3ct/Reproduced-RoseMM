@@ -5,8 +5,6 @@
 #ifndef __COMMON_MATRIX_HPP__
 #define __COMMON_MATRIX_HPP__
 
-#define NUM_THREAD 16
-
 template<class T>
 using Vector = std::vector<T>;
 
